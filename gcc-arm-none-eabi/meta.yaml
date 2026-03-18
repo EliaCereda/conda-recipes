@@ -1,4 +1,4 @@
-{% set version = "10.3-2021.10" %}
+{% set version = "13.3.rel1" %}
 
 package:
   name: gcc-arm-none-eabi
@@ -6,12 +6,15 @@ package:
   version: {{ version|replace('-', '.') }}
 
 source:
-  url: https://developer.arm.com/-/media/Files/downloads/gnu-rm/{{ version }}/gcc-arm-none-eabi-{{ version }}-mac.tar.bz2 # [osx]
-  sha256: fb613dacb25149f140f73fe9ff6c380bb43328e6bf813473986e9127e2bc283b # [osx]
-  url: https://developer.arm.com/-/media/Files/downloads/gnu-rm/{{ version }}/gcc-arm-none-eabi-{{ version }}-x86_64-linux.tar.bz2 # [linux64]
-  sha256: 97dbb4f019ad1650b732faffcc881689cedc14e2b7ee863d390e0a41ef16c9a3 # [linux64]
-  url: https://developer.arm.com/-/media/Files/downloads/gnu-rm/{{ version }}/gcc-arm-none-eabi-{{ version }}-win32.zip # [win]
-  sha256: d287439b3090843f3f4e29c7c41f81d958a5323aecefcf705c203bfd8ae3f2e7 # [win]
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-darwin-arm64-arm-none-eabi.tar.xz # [osx and arm64]
+  sha256: fb6921db95d345dc7e5e487dd43b745e3a5b4d5c0c7ca4f707347148760317b4 # [osx and arm64]
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-darwin-x86_64-arm-none-eabi.tar.xz # [osx and x86_64]
+  sha256: 1ab00742d1ed0926e6f227df39d767f8efab46f5250505c29cb81f548222d794 # [osx and x86_64]
+
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [linux and x86_64]
+  sha256: 95c011cee430e64dd6087c75c800f04b9c49832cc1000127a92a97f9c8d83af4 # [linux and x86_64]
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [linux and aarch64]
+  sha256: c8824bffd057afce2259f7618254e840715f33523a3d4e4294f471208f976764 # [linux and aarch64]
 
 build:
   string: '0'
@@ -21,6 +24,6 @@ test:
     - arm-none-eabi-gcc --version
 
 about:
-  home: https://developer.arm.com/open-source/gnu-toolchain/gnu-rm
+  home: https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
   license: GPL
-  summary: GNU Arm Embedded Toolchain
+  summary: Arm GNU Toolchain
