@@ -16,6 +16,13 @@ source:
   url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [linux and aarch64]
   sha256: c8824bffd057afce2259f7618254e840715f33523a3d4e4294f471208f976764 # [linux and aarch64]
 
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [win and arm64]
+  sha256: c8824bffd057afce2259f7618254e840715f33523a3d4e4294f471208f976764 # [linux and aarch64]
+
+
+  # url: https://developer.arm.com/-/media/Files/downloads/gnu-rm/{{ version }}/gcc-arm-none-eabi-{{ version }}-win32.zip # [win]
+  # sha256: d287439b3090843f3f4e29c7c41f81d958a5323aecefcf705c203bfd8ae3f2e7 # [win]
+
 build:
   string: '0'
 

@@ -1,1 +1,0 @@
-export CPPUTEST_HOME="$CONDA_PREFIX"
