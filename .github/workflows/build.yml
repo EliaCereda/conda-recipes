@@ -33,7 +33,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: 3.12
-          conda-build-version: ">=25.5.0,<26.2.0"
+          conda-build-version: ">=25.5.0"
           environment-file: environment.yml
           auto-update-conda: false
           auto-activate-base: false
