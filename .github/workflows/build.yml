@@ -13,7 +13,7 @@ jobs:
       # run all targets to completion, even if one fails
       fail-fast: false
       matrix:
-        platform: [macos-15, macos-15-intel, ubuntu-24.04, ubuntu-24.04-arm]
+        platform: [macos-15, macos-15-intel, ubuntu-24.04, ubuntu-24.04-arm, windows-2025]
     runs-on: ${{ matrix.platform }}
 
     # set bash to be a login shell, so that /etc/profile is sourced and conda
@@ -25,62 +25,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      # it might be worth switching to micromamba instead someday
-      # https://mamba.readthedocs.io/en/latest/installation.html#micromamba
-      - name: Install mambaforge
-        run: |
-          wget -q -O Mambaforge.sh  "https://github.com/conda-forge/miniforge/releases/download/23.3.1-1/Mambaforge-$(uname)-$(uname -m).sh"
-          bash Mambaforge.sh -b -p "${HOME}/mambaforge" > /dev/null
-
-          # very trashy- shove in the conda init crap into /etc/profile.
-          # /etc/profile on mac doesn't auto-source /etc/profile.d files, so add
-          # them explicitly
-          echo source "${HOME}/mambaforge/etc/profile.d/conda.sh" | sudo tee -a /etc/profile
-          echo source "${HOME}/mambaforge/etc/profile.d/mamba.sh" | sudo tee -a /etc/profile
-          echo 'mamba activate base' | sudo tee -a /etc/profile
-
-      - name: Mamba info
-        run: mamba info
-
-      - name: Install mambabuild
-        run: |
-          # install mambabuild for faster builds
-          mamba install --yes --channel conda-forge boa==0.15.1
-
-      - name: Set conda config values
-        run: |
-          conda config --set conda_build.pkg_format 2
-          conda config --set conda_build.zstd_compression_level 19
-
-          conda config --show
-
-      # Conda build relies on using the 'file' protocol when manipulating
-      # submodules that use a _relative_ ref (eg `../foo`), but this breaks due
-      # to a recent patch to git for a CVE. This workaround is required right
-      # now.
-      #
-      # https://vielmetti.typepad.com/logbook/2022/10/git-security-fixes-lead-to-fatal-transport-file-not-allowed-error-in-ci-systems-cve-2022-39253.html
-      - name: Work around git CVE fix
-        run: |
-          git config --global protocol.file.allow always
-
-      - name: Build package
-        run: |
-          # mac-only, we need to inject the macos sdk so conda can link against it
-          # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md
-          if command -v xcode-select; then
-            export MACOSX_DEPLOYMENT_TARGET="11.0"
-            export CONDA_BUILD_SYSROOT="$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk"
-
-            echo mac sysroot: ${CONDA_BUILD_SYSROOT}
-          fi
-
-          # store the output in an out of tree location
-          mkdir -p ${{ github.event.inputs.PACKAGE_DIR }}.${{ matrix.platform }}.output
-          conda mambabuild -c conda-forge --output-folder ${{ github.event.inputs.PACKAGE_DIR }}.${{ matrix.platform }}.output ${{ github.event.inputs.PACKAGE_DIR }}
-
-      # upload-artifact to save the output files
-      - uses: actions/upload-artifact@v4
+      - name: Conda environment creation and activation
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          name: ${{ github.event.inputs.PACKAGE_DIR }}.${{ matrix.platform }}.package
-          path: ${{ github.event.inputs.PACKAGE_DIR }}.${{ matrix.platform }}.output
+          python-version: 3.11
+          environment-file: environment.yml
+          auto-update-conda: false
+          auto-activate-base: false
+          show-channel-urls: true
+
+      - name: Build and upload the conda packages
+        uses: uibcdf/action-build-and-upload-conda-packages@v1.5.0
+        with:
+          meta_yaml_dir: ${{ github.event.inputs.PACKAGE_DIR }}
+          user: EliaCereda
+          token: ${{ secrets.ANACONDA_TOKEN }} # Replace with the name of your Anaconda Token secret
