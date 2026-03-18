@@ -13,15 +13,11 @@ source:
 
   url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [linux and x86_64]
   sha256: 95c011cee430e64dd6087c75c800f04b9c49832cc1000127a92a97f9c8d83af4 # [linux and x86_64]
-  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [linux and aarch64]
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-aarch64-arm-none-eabi.tar.xz # [linux and aarch64]
   sha256: c8824bffd057afce2259f7618254e840715f33523a3d4e4294f471208f976764 # [linux and aarch64]
 
-  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-x86_64-arm-none-eabi.tar.xz # [win and arm64]
-  sha256: c8824bffd057afce2259f7618254e840715f33523a3d4e4294f471208f976764 # [linux and aarch64]
-
-
-  # url: https://developer.arm.com/-/media/Files/downloads/gnu-rm/{{ version }}/gcc-arm-none-eabi-{{ version }}-win32.zip # [win]
-  # sha256: d287439b3090843f3f4e29c7c41f81d958a5323aecefcf705c203bfd8ae3f2e7 # [win]
+  url: https://developer.arm.com/-/media/Files/downloads/gnu/{{ version }}/binrel/arm-gnu-toolchain-{{ version }}-mingw-w64-i686-arm-none-eabi.zip # [win and x86_64]
+  sha256: e46fda043c0ce83582bc8db4b3ef85f77f4beb7333344c2f4193c17e1167a095 # [win and x86_64]
 
 build:
   string: '0'
